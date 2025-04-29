@@ -453,11 +453,130 @@
             </nav>
             <div class="work-section">
                 <p>学习进度</p>
-                <ul>
+                <ul id="study-plan-list">
                     <li><a href="#">计算机组成原理 - 25%</a></li>
                     <li><a href="#">最近实验 - CPU设计</a></li>
                 </ul>
             </div>
+            <style>
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                }
+
+                .modal-content {
+                    background: white;
+                    padding: 25px;
+                    border-radius: 12px;
+                    width: 350px;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                    animation: modalFadeIn 0.3s ease;
+                }
+
+                .modal-header {
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-bottom: 15px;
+                    color: #333;
+                }
+
+                .modal-body {
+                    margin-bottom: 20px;
+                    color: #666;
+                    line-height: 1.5;
+                }
+
+                .modal-footer {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 10px;
+                }
+
+                .modal-btn {
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+
+                .modal-btn-cancel {
+                    background-color: #f5f5f5;
+                    border: 1px solid #e0e0e0;
+                    color: #666;
+                }
+
+                .modal-btn-confirm {
+                    background: linear-gradient(135deg, #20beff, #0056b3);
+                    color: white;
+                    border: none;
+                }
+
+                .modal-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                @keyframes modalFadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(10px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            </style>
+
+            <script>
+                function showModal(courseTitle) {
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-overlay';
+
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <div class="modal-header">确认加入学习计划</div>
+                            <div class="modal-body">
+                                确认将 <strong>${courseTitle}</strong> 加入您的学习计划吗？
+                            </div>
+                            <div class="modal-footer">
+                                <button class="modal-btn modal-btn-cancel">取消</button>
+                                <button class="modal-btn modal-btn-confirm">确认</button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+
+                    modal.querySelector('.modal-btn-cancel').addEventListener('click', () => {
+                        document.body.removeChild(modal);
+                    });
+
+                    modal.querySelector('.modal-btn-confirm').addEventListener('click', () => {
+                        addToStudyPlan(courseTitle);
+                        document.body.removeChild(modal);
+                    });
+                }
+
+                function addToStudyPlan(courseTitle) {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = courseTitle + ' - 0%';
+                    listItem.appendChild(link);
+                    document.getElementById('study-plan-list').appendChild(listItem);
+                }
+            </script>
             <div class="events-section">
                 <p>热门讨论</p>
                 <ul>
@@ -517,7 +636,7 @@
 
             <section class="course-grid">
                 <!-- 课程卡片1 -->
-                <div class="course-card">
+                <div class="course-card" onclick="showModal('计算机组成原理基础入门')">
                     <div class="course-image"></div>
                     <div class="course-content">
                         <h3 class="course-title">计算机组成原理基础入门</h3>
@@ -536,7 +655,7 @@
                 </div>
 
                 <!-- 课程卡片2 -->
-                <div class="course-card">
+                <div class="course-card" onclick="showModal('CPU设计与实现')">
                     <div class="course-image"></div>
                     <div class="course-content">
                         <h3 class="course-title">CPU设计与实现</h3>
@@ -555,7 +674,7 @@
                 </div>
 
                 <!-- 课程卡片3 -->
-                <div class="course-card">
+                <div class="course-card" onclick="showModal('MIPS指令集架构详解')">
                     <div class="course-image"></div>
                     <div class="course-content">
                         <h3 class="course-title">MIPS指令集架构详解</h3>
@@ -574,7 +693,7 @@
                 </div>
 
                 <!-- 课程卡片4 -->
-                <div class="course-card">
+                <div class="course-card" onclick="showModal('存储系统与缓存技术')">
                     <div class="course-image"></div>
                     <div class="course-content">
                         <h3 class="course-title">存储系统与缓存技术</h3>
@@ -593,7 +712,7 @@
                 </div>
 
                 <!-- 课程卡片5 -->
-                <div class="course-card">
+                <div class="course-card" onclick="showModal('计算机总线与I/O系统')">
                     <div class="course-image"></div>
                     <div class="course-content">
                         <h3 class="course-title">计算机总线与I/O系统</h3>
@@ -612,7 +731,7 @@
                 </div>
 
                 <!-- 课程卡片6 -->
-                <div class="course-card">
+                <div class="course-card" onclick="showModal('流水线技术与并行处理')">
                     <div class="course-image"></div>
                     <div class="course-content">
                         <h3 class="course-title">流水线技术与并行处理</h3>
