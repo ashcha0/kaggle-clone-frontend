@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应试模拟 - 计算机组成原理</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #fff, #f5f9fc);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f9fc;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 用户头像样式 */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 8px;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #20beff;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 10px rgba(32, 190, 255, 0.3);
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            width: 300px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #20beff;
+            box-shadow: 0 2px 10px rgba(32, 190, 255, 0.2);
+        }
+
+        /* 考试区域布局 */
+        .exam-container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* 主要考试区域 */
+        .exam-main {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .exam-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .exam-timer {
+            background-color: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .exam-timer:before {
+            content: '⏱';
+            font-size: 16px;
+        }
+
+        .question-container {
+            flex: 1;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-item:hover {
+            border-color: #20beff;
+            background-color: rgba(32, 190, 255, 0.05);
+        }
+
+        .option-item.selected {
+            border-color: #20beff;
+            background-color: rgba(32, 190, 255, 0.1);
+        }
+
+        .option-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #888;
+            transition: all 0.2s ease;
+        }
+
+        .option-item.selected .option-marker {
+            border-color: #20beff;
+            background-color: #20beff;
+            color: white;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .question-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            padding: 8px 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-btn:hover {
+            border-color: #20beff;
+            color: #20beff;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border: none;
+        }
+
+        .nav-btn.next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(32, 190, 255, 0.3);
+        }
+
+        /* 右侧章节导航 */
+        .chapter-navigation {
+            width: 280px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            align-self: flex-start;
+            position: sticky;
+            top: 20px;
+        }
+
+        .chapter-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chapter-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .chapter-item {
+            margin-bottom: 5px;
+        }
+
+        .chapter-link {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-link:hover {
+            background-color: #f5f9fc;
+            color: #20beff;
+        }
+
+        .chapter-link.active {
+            background-color: #e9f5ff;
+            color: #0056b3;
+            font-weight: 500;
+        }
+
+        .question-count {
+            font-size: 12px;
+            color: #888;
+            background-color: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .chapter-link.active .question-count {
+            background-color: #cce5ff;
+            color: #0056b3;
+        }
+
+        /* 底部状态栏 */
+        .exam-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .status-item:before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #20beff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            border-color: #20beff;
+            color: #20beff;
+        }
+
+        .action-btn.submit {
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(32, 190, 255, 0.3);
+        }
+
+        .username {
+            margin-left: 10px;
+            font-weight: 500;
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">kaggle</div>
+            <button class="create-btn">+ 创建</button>
+            <nav class="menu">
+                <ul>
+                    <li><a href="kaggle.html">首页</a></li>
+                    <li><a href="online_learning.html">在线学习</a></li>
+                    <li><a href="virtual_experiment.html">虚拟实验</a></li>
+                    <li class="active"><a href="exam_simulation.html">应试模拟</a></li>
+                    <li><a href="discussion.html">社区讨论</a></li>
+                </ul>
+            </nav>
+            <div class="work-section">
+                <p>学习进度</p>
+                <ul>
+                    <li><a href="#">计算机组成原理 - 25%</a></li>
+                    <li><a href="#">最近实验 - CPU设计</a></li>
+                </ul>
+            </div>
+            <div class="events-section">
+                <p>热门讨论</p>
+                <ul>
+                    <li><a href="#">如何理解流水线设计？</a></li>
+                    <li><a href="#">MIPS指令集学习心得</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索试题或章节">
+                </div>
+                <div class="nav-actions">
+                    <button class="app-download-btn">App下载</button>
+                    <div class="user-profile">
+                        <div class="avatar">A</div>
+                        <span class="username">ashchao</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="exam-container">
+                <!-- 主要考试区域 -->
+                <div class="exam-main">
+                    <div class="exam-header">
+                        <div class="exam-title">计算机组成原理 - 第3章 CPU架构</div>
+                        <div class="exam-timer">剩余时间: 45:30</div>
+                    </div>
+
+                    <div class="question-container">
+                        <div class="question">
+                            <div class="question-number">问题 7 / 20</div>
+                            <div class="question-text">在MIPS指令集架构中，以下哪种寻址方式用于加载和存储指令？</div>
+                            <ul class="options-list">
+                                <li class="option-item">
+                                    <div class="option-marker">A</div>
+                                    <div class="option-text">寄存器寻址</div>
+                                </li>
+                                <li class="option-item selected">
+                                    <div class="option-marker">B</div>
+                                    <div class="option-text">基址寻址</div>
+                                </li>
+                                <li class="option-item">
+                                    <div class="option-marker">C</div>
+                                    <div class="option-text">立即数寻址</div>
+                                </li>
+                                <li class="option-item">
+                                    <div class="option-marker">D</div>
+                                    <div class="option-text">PC相对寻址</div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="question-navigation">
+                            <button class="nav-btn prev">上一题</button>
+                            <button class="nav-btn next">下一题</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧章节导航 -->
+                <div class="chapter-navigation">
+                    <div class="chapter-title">章节导航</div>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link">
+                                <span>第1章 计算机系统概述</span>
+                                <span class="question-count">15题</span>
+                            </a>
+                        </li>
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link">
+                                <span>第2章 数据的表示与运算</span>
+                                <span class="question-count">18题</span>
+                            </a>
+                        </li>
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link active">
+                                <span>第3章 CPU架构</span>
+                                <span class="question-count">20题</span>
+                            </a>
+                        </li>
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link">
+                                <span>第4章 指令系统</span>
+                                <span class="question-count">25题</span>
+                            </a>
+                        </li>
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link">
+                                <span>第5章 存储系统</span>
+                                <span class="question-count">22题</span>
+                            </a>
+                        </li>
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link">
+                                <span>第6章 输入输出系统</span>
+                                <span class="question-count">16题</span>
+                            </a>
+                        </li>
+                        <li class="chapter-item">
+                            <a href="#" class="chapter-link">
+                                <span>第7章 流水线技术</span>
+                                <span class="question-count">18题</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exam-status-bar">
+                <div class="status-info">
+                    <div class="status-item">已答: 6题</div>
+                    <div class="status-item">未答: 14题</div>
+                    <div class="status-item">标记: 2题</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn">跳过此题</button>
+                    <button class="action-btn">标记此题</button>
+                    <button class="action-btn submit">提交答案</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 简单交互效果
+        document.addEventListener('DOMContentLoaded', function () {
+            // 选项选择效果
+            const optionItems = document.querySelectorAll('.option-item');
+            optionItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    // 移除其他选项的选中状态
+                    optionItems.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    // 添加当前选项的选中状态
+                    this.classList.add('selected');
+                });
+            });
+
+            // 导航按钮效果
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    alert('切换到' + (this.classList.contains('next') ? '下一题' : '上一题'));
+                });
+            });
+
+            // 提交按钮效果
+            const submitButton = document.querySelector('.action-btn.submit');
+            submitButton.addEventListener('click', function () {
+                alert('提交答案');
+            });
+        });
+    </script>
+</body>
+
+</html>

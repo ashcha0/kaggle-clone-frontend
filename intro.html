@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaggle克隆 - 数据科学与AI社区</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 介绍页面特定样式 */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        .intro-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            background-color: #fff;
+            border-radius: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .intro-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .intro-logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .intro-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .intro-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .intro-nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .intro-nav a:hover {
+            color: #20beff;
+            background-color: rgba(32, 190, 255, 0.1);
+        }
+
+        .intro-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(90deg, #20beff, #0056b3);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .intro-nav a:hover::after {
+            width: 70%;
+        }
+
+        .intro-search {
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            width: 200px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+        }
+
+        .intro-search:focus {
+            outline: none;
+            border-color: #20beff;
+            box-shadow: 0 2px 10px rgba(32, 190, 255, 0.2);
+            width: 220px;
+        }
+
+        .intro-auth {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .intro-auth a {
+            color: #555;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .intro-auth a:hover {
+            color: #20beff;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(32, 190, 255, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(32, 190, 255, 0.4);
+        }
+
+        .hero-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 60px 0;
+            background: linear-gradient(135deg, rgba(240, 249, 255, 0.8), rgba(214, 240, 253, 0.5));
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #333, #0056b3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleFade 1.5s ease-in-out;
+        }
+
+        @keyframes titleFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-description {
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .register-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .register-google {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .register-google:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-color: #ccc;
+        }
+
+        .register-email {
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(32, 190, 255, 0.3);
+        }
+
+        .register-email:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(32, 190, 255, 0.4);
+        }
+
+        .users-section {
+            margin: 80px 0;
+        }
+
+        .users-title {
+            font-size: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .user-types {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .user-type {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .user-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e0f7ff, #c5e8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(32, 190, 255, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .user-type:hover .user-icon {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(32, 190, 255, 0.25);
+        }
+
+        .user-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .user-info p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .see-more {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 30px;
+            color: #555;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .see-more:hover {
+            background-color: #f9f9f9;
+            color: #20beff;
+            border-color: #20beff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 项目部分样式 */
+        .project-section {
+            margin: 80px 0;
+            background: linear-gradient(135deg, #f0f9ff, #e6f7ff);
+            padding: 60px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(32, 190, 255, 0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .project-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .project-header {
+            margin-bottom: 40px;
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .project-description {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+            max-width: 600px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover .stat-number {
+            transform: scale(1.1);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 数据集部分样式 */
+        .datasets-section {
+            margin: 80px 0;
+        }
+
+        .datasets-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .datasets-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .view-all {
+            color: #20beff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .datasets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .dataset-card {
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .dataset-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(32, 190, 255, 0.15);
+            border-color: rgba(32, 190, 255, 0.3);
+        }
+
+        .dataset-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e0f7ff, #c5e8ff);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(32, 190, 255, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .dataset-card:hover .dataset-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .dataset-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .dataset-info {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .dataset-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .dataset-tag {
+            background-color: #f0f9ff;
+            color: #0056b3;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(32, 190, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dataset-tag:hover {
+            background-color: rgba(32, 190, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background: linear-gradient(135deg, #f5f5f5, #e9e9e9);
+            padding: 60px 0 40px;
+            margin-top: 80px;
+            border-top: 1px solid #e0e0e0;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #20beff, #0056b3);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-column {
+            flex: 1;
+            margin-right: 30px;
+        }
+
+        .footer-column:last-child {
+            margin-right: 0;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #20beff;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="intro-container">
+        <header class="intro-header">
+            <div class="intro-logo">kaggle</div>
+            <nav class="intro-nav">
+                <a href="#">竞赛</a>
+                <a href="#">数据集</a>
+                <a href="#">模型</a>
+                <a href="#">代码</a>
+                <a href="#">讨论</a>
+                <a href="#">课程</a>
+            </nav>
+            <input type="text" class="intro-search" placeholder="搜索">
+            <div class="intro-auth">
+                <a href="#" id="sign-in">登录</a>
+                <button class="login-btn" id="register-btn">注册</button>
+            </div>
+        </header>
+
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">与最大的AI<br>&amp; ML社区一起成长</h1>
+                <p class="hero-description">加入超过23M+机器学习爱好者，共同分享、学习和实践最新的ML技术和方法。发现海量的社区贡献模型、数据和代码，助力您的下一个项目。</p>
+                <div class="register-buttons">
+                    <button class="register-google">使用Google注册</button>
+                    <button class="register-email">使用邮箱注册</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- 这里可以放置一个SVG图像，模拟截图中的插图 -->
+                <svg width="300" height="300" viewBox="0 0 300 300">
+                    <circle cx="150" cy="150" r="100" fill="#f0f0f0" />
+                    <circle cx="120" cy="130" r="20" fill="#20beff" />
+                    <circle cx="180" cy="130" r="20" fill="#20beff" />
+                    <path d="M120,180 Q150,210 180,180" stroke="#333" stroke-width="3" fill="none" />
+                </svg>
+            </div>
+        </section>
+
+        <section class="users-section">
+            <h2 class="users-title">谁在使用Kaggle?</h2>
+            <div class="user-types">
+                <div class="user-type">
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                            stroke="#0056b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            <path d="M17.5 17.5L12 22l-5.5-4.5a9 9 0 1 1 11 0z"></path>
+                            <path d="M9 17l3-3 3 3"></path>
+                        </svg>
+                    </div>
+                    <div class="user-info">
+                        <h3>学习者</h3>
+                        <p>深入Kaggle课程、竞赛和论坛，提升您的数据科学技能。</p>
+                    </div>
+                </div>
+                <div class="user-type">
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                            stroke="#0056b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 18l6-6-6-6"></path>
+                            <path d="M8 6l-6 6 6 6"></path>
+                            <path d="M1.2 12h21.6"></path>
+                        </svg>
+                    </div>
+                    <div class="user-info">
+                        <h3>开发者</h3>
+                        <p>利用Kaggle的模型、笔记本和数据集，加速您的开发过程。</p>
+                    </div>
+                </div>
+                <div class="user-type">
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                            stroke="#0056b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                    </div>
+                    <div class="user-info">
+                        <h3>研究者</h3>
+                        <p>借助我们的预训练模型和竞赛，推进ML领域的研究。</p>
+                    </div>
+                </div>
+            </div>
+            <button class="see-more">查看更多</button>
+        </section>
+
+        <section class="project-section">
+            <div class="project-container">
+                <div class="project-header">
+                    <h2 class="project-title">使用Kaggle开展您的下一个项目</h2>
+                    <p class="project-description">Kaggle提供了丰富的资源，帮助您快速开始数据科学和机器学习项目。从高质量数据集到预训练模型，一切尽在掌握。</p>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number">450K+</div>
+                        <div class="stat-label">数据集</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1.4M+</div>
+                        <div class="stat-label">笔记本</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">19,000+</div>
+                        <div class="stat-label">模型</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="datasets-section">
+            <div class="datasets-header">
+                <h2 class="datasets-title">热门数据集</h2>
+                <a href="#" class="view-all">查看全部</a>
+            </div>
+
+            <div class="datasets-grid">
+                <div class="dataset-card">
+                    <div class="dataset-icon"></div>
+                    <h3 class="dataset-title">比特币历史数据</h3>
+                    <div class="dataset-info">更新于: 3天前 • 大小: 2.1GB</div>
+                    <div class="dataset-tags">
+                        <span class="dataset-tag">金融</span>
+                        <span class="dataset-tag">加密货币</span>
+                    </div>
+                </div>
+
+                <div class="dataset-card">
+                    <div class="dataset-icon"></div>
+                    <h3 class="dataset-title">食品300图像数据集</h3>
+                    <div class="dataset-info">更新于: 1周前 • 大小: 1.8GB</div>
+                    <div class="dataset-tags">
+                        <span class="dataset-tag">计算机视觉</span>
+                        <span class="dataset-tag">图像分类</span>
+                    </div>
+                </div>
+
+                <div class="dataset-card">
+                    <div class="dataset-icon"></div>
+                    <h3 class="dataset-title">自然语言处理语料库</h3>
+                    <div class="dataset-info">更新于: 2周前 • 大小: 5.3GB</div>
+                    <div class="dataset-tags">
+                        <span class="dataset-tag">NLP</span>
+                        <span class="dataset-tag">文本分析</span>
+                    </div>
+                </div>
+
+                <div class="dataset-card">
+                    <div class="dataset-icon"></div>
+                    <h3 class="dataset-title">Python编程挑战</h3>
+                    <div class="dataset-info">更新于: 1个月前 • 大小: 156MB</div>
+                    <div class="dataset-tags">
+                        <span class="dataset-tag">编程</span>
+                        <span class="dataset-tag">教育</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">Kaggle</h3>
+                <ul class="footer-links">
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">团队</a></li>
+                    <li><a href="#">招聘</a></li>
+                    <li><a href="#">新闻</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-title">资源</h3>
+                <ul class="footer-links">
+                    <li><a href="#">文档</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">社区</a></li>
+                    <li><a href="#">博客</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-title">支持</h3>
+                <ul class="footer-links">
+                    <li><a href="#">帮助中心</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="#">服务条款</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2023 Kaggle克隆 - 仅用于学习目的
+        </div>
+    </footer>
+
+    <!-- 登录模态框 -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>登录</h2>
+            <form>
+                <label for="username">用户名:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">密码:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">登录</button>
+                <p class="modal-switch">还没有账号？<a href="#" id="switch-to-register">注册</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>注册</h2>
+            <form>
+                <label for="reg-username">用户名:</label>
+                <input type="text" id="reg-username" name="reg-username" required>
+                <label for="reg-email">邮箱:</label>
+                <input type="email" id="reg-email" name="reg-email" required>
+                <label for="reg-password">密码:</label>
+                <input type="password" id="reg-password" name="reg-password" required>
+                <label for="reg-confirm-password">确认密码:</label>
+                <input type="password" id="reg-confirm-password" name="reg-confirm-password" required>
+                <button type="submit">注册</button>
+                <p class="modal-switch">已有账号？<a href="#" id="switch-to-login">登录</a></p>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            max-width: 90%;
+            position: relative;
+            animation: modalFade 0.3s ease-in-out;
+        }
+
+        @keyframes modalFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content label {
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .modal-content input {
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: #20beff;
+            box-shadow: 0 0 10px rgba(32, 190, 255, 0.2);
+        }
+
+        .modal-switch {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .modal-switch a {
+            color: #20beff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modal-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-content button {
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(32, 190, 255, 0.3);
+        }
+
+        .modal-content button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(32, 190, 255, 0.4);
+        }
+    </style>
+
+    <script>
+        // 获取模态框元素
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+
+        // 获取按钮元素
+        const signInBtn = document.getElementById('sign-in');
+        const registerBtn = document.getElementById('register-btn');
+        const registerGoogleBtn = document.querySelector('.register-google');
+        const registerEmailBtn = document.querySelector('.register-email');
+
+        // 获取关闭按钮
+        const closeBtns = document.querySelectorAll('.close-btn');
+
+        // 获取切换链接
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+
+        // 打开登录模态框
+        signInBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+        });
+
+        // 打开注册模态框
+        registerBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            registerModal.style.display = 'flex';
+        });
+
+        // Google注册按钮
+        registerGoogleBtn.addEventListener('click', function () {
+            registerModal.style.display = 'flex';
+        });
+
+        // 邮箱注册按钮
+        registerEmailBtn.addEventListener('click', function () {
+            registerModal.style.display = 'flex';
+        });
+
+        // 关闭模态框
+        closeBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'none';
+            });
+        });
+
+        // 点击模态框外部关闭模态框
+        window.addEventListener('click', function (event) {
+            if (event.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (event.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+        });
+
+        // 切换到注册模态框
+        switchToRegister.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        });
+
+        // 切换到登录模态框
+        switchToLogin.addEventListener('click', function (e) {
+            e.preventDefault();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        // 表单提交处理
+        const forms = document.querySelectorAll('form');
+        forms.forEach(function (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                // 隐藏模态框
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'none';
+                // 登录成功后跳转到kaggle.html页面
+                window.location.href = 'kaggle.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

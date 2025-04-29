@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线学习 - 计算机组成原理</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #fff, #f5f9fc);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .create-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(32, 190, 255, 0.2);
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(32, 190, 255, 0.3);
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu li {
+            margin-bottom: 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .menu li:hover {
+            background-color: rgba(32, 190, 255, 0.1);
+        }
+
+        .menu li.active {
+            background-color: rgba(32, 190, 255, 0.15);
+        }
+
+        .menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #20beff;
+        }
+
+        .menu li.active a {
+            color: #0056b3;
+            font-weight: 500;
+        }
+
+        .work-section,
+        .events-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .work-section p,
+        .events-section p {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .work-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .work-section li {
+            margin-bottom: 5px;
+        }
+
+        .work-section a {
+            display: block;
+            padding: 8px 10px;
+            color: #555;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .work-section a:hover {
+            background-color: rgba(32, 190, 255, 0.1);
+            color: #20beff;
+        }
+
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            padding: 20px 30px;
+            background-color: #fff;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-bar input {
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            width: 300px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #20beff;
+            box-shadow: 0 2px 10px rgba(32, 190, 255, 0.2);
+            width: 320px;
+        }
+
+        /* 用户头像样式 */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #20beff;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(32, 190, 255, 0.4);
+        }
+
+        .username {
+            margin-left: 10px;
+            font-weight: 500;
+            color: #0056b3;
+        }
+
+        /* 课程推荐区域样式 */
+        .course-recommendation {
+            background: linear-gradient(135deg, rgba(240, 249, 255, 0.8), rgba(214, 240, 253, 0.5));
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-recommendation h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #333, #0056b3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .course-recommendation p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* 课程分类标签样式 */
+        .course-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .course-tag {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .course-tag:hover {
+            background-color: rgba(32, 190, 255, 0.1);
+            border-color: #20beff;
+            color: #0056b3;
+        }
+
+        .course-tag.active {
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* 课程卡片区域样式 */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .course-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(32, 190, 255, 0.15);
+            border-color: rgba(32, 190, 255, 0.3);
+        }
+
+        .course-image {
+            height: 160px;
+            background: linear-gradient(135deg, #e0f7ff, #c0e6ff);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .course-image::before {
+            content: '🖥️';
+            font-size: 48px;
+            opacity: 0.5;
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .course-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+        }
+
+        .instructor-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #20beff, #0056b3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .instructor-name {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .course-progress {
+            background-color: #f5f5f5;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #20beff, #0056b3);
+            border-radius: 3px;
+        }
+
+        /* 筛选区域样式 */
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-btn {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #20beff;
+            color: #0056b3;
+        }
+
+        .filter-btn::after {
+            content: '▼';
+            font-size: 10px;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: #20beff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">kaggle</div>
+            <button class="create-btn">+ 创建</button>
+            <nav class="menu">
+                <ul>
+                    <li><a href="kaggle.html">首页</a></li>
+                    <li class="active"><a href="online_learning.html">在线学习</a></li>
+                    <li><a href="virtual_experiment.html">虚拟实验</a></li>
+                    <li><a href="exam_preparation.html">应试模拟</a></li>
+                    <li><a href="community.html">社区讨论</a></li>
+                </ul>
+            </nav>
+            <div class="work-section">
+                <p>学习进度</p>
+                <ul>
+                    <li><a href="#">计算机组成原理 - 25%</a></li>
+                    <li><a href="#">最近实验 - CPU设计</a></li>
+                </ul>
+            </div>
+            <div class="events-section">
+                <p>热门讨论</p>
+                <ul>
+                    <li><a href="#">如何理解流水线设计？</a></li>
+                    <li><a href="#">MIPS指令集学习心得</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索课程、讲师或关键词">
+                </div>
+                <div class="nav-actions">
+                    <button class="app-download-btn">App下载</button>
+                    <div class="user-profile">
+                        <div class="avatar">A</div>
+                        <span class="username">ashchao</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="course-recommendation">
+                <h1>计算机组成原理在线学习</h1>
+                <p>探索计算机硬件设计与架构的核心概念，从基础到高级内容全面覆盖</p>
+                <div class="course-tags">
+                    <div class="course-tag active">全部课程</div>
+                    <div class="course-tag">CPU架构</div>
+                    <div class="course-tag">指令集</div>
+                    <div class="course-tag">存储系统</div>
+                    <div class="course-tag">总线设计</div>
+                    <div class="course-tag">I/O系统</div>
+                </div>
+            </section>
+
+            <section class="filter-section">
+                <div class="filter-options">
+                    <div class="filter-dropdown">
+                        <button class="filter-btn">难度</button>
+                    </div>
+                    <div class="filter-dropdown">
+                        <button class="filter-btn">时长</button>
+                    </div>
+                    <div class="filter-dropdown">
+                        <button class="filter-btn">评分</button>
+                    </div>
+                </div>
+                <div class="sort-options">
+                    <span class="sort-label">排序方式：</span>
+                    <select class="sort-select">
+                        <option>最新发布</option>
+                        <option>最受欢迎</option>
+                        <option>评分最高</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="course-grid">
+                <!-- 课程卡片1 -->
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <h3 class="course-title">计算机组成原理基础入门</h3>
+                        <p class="course-description">从零开始学习计算机硬件架构，理解CPU、内存、总线等基本组件的工作原理。</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">L</div>
+                                <span class="instructor-name">李教授</span>
+                            </div>
+                            <span>12课时</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片2 -->
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <h3 class="course-title">CPU设计与实现</h3>
+                        <p class="course-description">深入学习CPU的设计原理，包括指令周期、流水线、控制单元等核心概念。</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">W</div>
+                                <span class="instructor-name">王教授</span>
+                            </div>
+                            <span>15课时</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 15%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片3 -->
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <h3 class="course-title">MIPS指令集架构详解</h3>
+                        <p class="course-description">全面讲解MIPS指令集的设计思想、指令格式、寻址方式及实际应用。</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">Z</div>
+                                <span class="instructor-name">张教授</span>
+                            </div>
+                            <span>10课时</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片4 -->
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <h3 class="course-title">存储系统与缓存技术</h3>
+                        <p class="course-description">探索计算机存储层次结构，理解主存、缓存、虚拟内存的工作原理与优化方法。</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">C</div>
+                                <span class="instructor-name">陈教授</span>
+                            </div>
+                            <span>8课时</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片5 -->
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <h3 class="course-title">计算机总线与I/O系统</h3>
+                        <p class="course-description">详细讲解计算机总线结构、I/O接口设计及各种外设连接技术。</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">H</div>
+                                <span class="instructor-name">黄教授</span>
+                            </div>
+                            <span>9课时</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片6 -->
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <h3 class="course-title">流水线技术与并行处理</h3>
+                        <p class="course-description">学习CPU流水线设计原理、冒险处理及超标量、超流水等高级并行处理技术。</p>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">S</div>
+                                <span class="instructor-name">孙教授</span>
+                            </div>
+                            <span>14课时</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <script>
+                // 简单的交互效果
+                document.addEventListener('DOMContentLoaded', function () {
+                    // 课程标签切换
+                    const courseTags = document.querySelectorAll('.course-tag');
+                    courseTags.forEach(tag => {
+                        tag.addEventListener('click', function () {
+                            courseTags.forEach(t => t.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                    });
+
+                    // 筛选按钮效果
+                    const filterBtns = document.querySelectorAll('.filter-btn');
+                    filterBtns.forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            this.classList.toggle('active');
+                        });
+                    });
+                });
+            </script>
+        </main>
+    </div>
+</body>
+
+</html>
